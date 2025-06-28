@@ -1,0 +1,49 @@
+# VEX机器人项目 .gitignore
+
+# 编译输出目录
+/bin
+/build
+build/
+bin/
+
+# 编译生成的文件
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+
+# VEX特定文件
+compile_commands.json
+*.vex
+*.lst
+*.map
+*.hex
+*.elf
+
+# VS Code特定文件（但保留配置）
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/.ropeproject
+
+# 系统文件
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 临时文件
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+
+# 日志文件
+*.log
+
+# 缓存文件
+*.cache
