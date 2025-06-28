@@ -5,18 +5,64 @@ Code Communication.
   1. 修改项目名称：打开`.vscode/vex_project_settings.json`文件,修改`project`的`name`属性,修改烧录端口请使用插件的按键
   2. 模板给出基本代码框架,请根据每个文件的提示完成修改任务,主要修改`src`目录下的`main.cpp`、`pidControl.cpp`、`robot-config.cpp`,`include`目录下的`robot-config.h`文件和`tjulib-chassis/ordinary-chassis/ordistraight.hpp`文件,鼓励自己研究并编写定位系统
   3. 如果你需要自己实现一些其他方法,请在include文件夹中定义(参考地盘类实现方式),并记得在`tjulib.h`头文件中声明
+  4. 下面的introduction由AI生成，不知讲的是否足够清晰，不懂直接找Copilot询问，放过我罢球球了55555~~~
+  5. 如下面所说，**千万不要直接在main分支里修改！！！一定要创建分支，并且写上自己修改内容！！！**
 
 ## 🤝 团队协作完整指南
 
 ### 📥 1. 初次设置项目
 
-**克隆项目到本地：**
+**第一步：配置SSH密钥（推荐，解决网络问题）**
+
+每个团队成员都需要配置自己的SSH密钥：
+
+**在Windows上打开Git Bash：**
+- 方法1：开始菜单搜索 "Git Bash" 并打开
+- 方法2：在任意文件夹右键，选择 "Git Bash Here"
+- 方法3：在VS Code中打开终端，选择Git Bash作为默认终端
+
+**在Git Bash中运行以下命令：**
 ```bash
+# 1. 生成SSH密钥（替换为你自己的邮箱）
+ssh-keygen -t ed25519 -C "your-email@example.com"
+
+# 按回车使用默认路径，可以设置密码（推荐）或直接回车跳过
+
+# 2. 查看公钥内容并复制
+cat ~/.ssh/id_ed25519.pub
+```
+
+**注意：**
+- ✅ 使用 **Git Bash**（不是Windows PowerShell或CMD）
+- ✅ `~` 符号在Git Bash中表示用户主目录
+- ✅ 如果提示文件已存在，可以选择覆盖或使用现有的
+
+**在GitHub上添加SSH密钥：**
+1. 打开 GitHub → Settings → SSH and GPG keys
+2. 点击 "New SSH key"
+3. 粘贴你的公钥内容（注意：是公钥，不是私钥！）
+4. 保存
+
+**测试SSH连接（在Git Bash中运行）：**
+```bash
+ssh -T git@github.com
+```
+看到 "Hi 你的用户名! You've successfully authenticated" 即为成功。
+
+**第二步：克隆项目到本地**
+
+**在Git Bash中运行：**
+```bash
+# 使用SSH克隆（推荐）
+git clone git@github.com:A1C1NY/VEX-Freshmen-Group-1.git
+cd VEX-Freshmen-Group-1
+
+# 或使用HTTPS克隆（可能有网络问题）
 git clone https://github.com/A1C1NY/VEX-Freshmen-Group-1.git
 cd VEX-Freshmen-Group-1
 ```
 
-**配置你的Git信息：**
+**第三步：配置你的Git信息（在Git Bash中运行）**
 ```bash
 git config --global user.name "你的姓名"
 git config --global user.email "你的邮箱@example.com"
@@ -203,12 +249,35 @@ git commit -m "resolve: 解决合并冲突"
 git push origin 你的分支名
 ```
 
-**问题3：想撤销最后一次提交**
+**问题4：网络连接问题，无法连接GitHub**
 ```bash
-git reset --soft HEAD~1           # 撤销提交但保留修改
-# 或者
-git reset --hard HEAD~1           # 撤销提交并丢弃修改（危险操作！）
+# 方法1：配置SSH（推荐，一劳永逸）
+# 按照上面的SSH配置步骤操作
+
+# 方法2：如果已经克隆但是HTTPS有问题，改为SSH
+git remote set-url origin git@github.com:A1C1NY/VEX-Freshmen-Group-1.git
+
+# 方法3：增加超时时间
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 999999
 ```
+
+**问题5：团队成员如何获得项目访问权限**
+- ❌ **不要分享你的SSH私钥给任何人！**
+- ✅ **每个人都需要生成自己的SSH密钥**
+- ✅ **项目所有者需要邀请团队成员成为协作者**
+
+**邀请团队成员步骤：**
+1. 在GitHub项目页面，点击 "Settings"
+2. 点击左侧 "Collaborators"
+3. 点击 "Add people"
+4. 输入团队成员的GitHub用户名或邮箱
+5. 发送邀请
+
+**团队成员接受邀请后：**
+1. 配置自己的SSH密钥（按照上面步骤）
+2. 克隆项目到本地
+3. 开始协作开发
 
 ### 📞 9. 团队协作流程示例
 
@@ -242,6 +311,36 @@ git branch -d feature/autonomous-mode
 ```
 
 **记住：Git协作的核心是沟通！遇到问题及时和团队沟通。**
+
+### 🔐 10. 安全和权限管理
+
+**SSH密钥安全要点：**
+- 🔑 **私钥（id_ed25519）**：保留在你的电脑上，永远不要分享给任何人
+- 🗝️ **公钥（id_ed25519.pub）**：可以安全地添加到GitHub、GitLab等平台
+- ❌ **绝对不要**：通过邮件、聊天工具等分享私钥文件
+- ✅ **正确做法**：每个人生成自己的密钥对
+
+**团队权限管理：**
+1. **Repository Owner（仓库所有者）**：
+   - 可以邀请和移除协作者
+   - 可以修改仓库设置
+   - 可以删除仓库
+
+2. **Collaborators（协作者）**：
+   - 可以推送代码
+   - 可以创建和合并Pull Request
+   - 可以管理Issues
+
+3. **添加团队成员流程**：
+   ```
+   仓库所有者 → Settings → Collaborators → Add people → 输入用户名/邮箱
+   ```
+
+**如果同伴遇到权限问题：**
+1. 确认已被添加为协作者
+2. 确认已接受GitHub邀请
+3. 确认SSH密钥配置正确
+4. 确认使用SSH地址克隆：`git@github.com:A1C1NY/VEX-Freshmen-Group-1.git`
 
 ## 📁 项目结构
 ```
