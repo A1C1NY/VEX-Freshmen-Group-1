@@ -10,7 +10,7 @@
     2.PID参数的配置
     3.函数pre_auton()，autonomous()和usercontrol()的内容
 */
-
+// for test only
 #include "vex.h"
 #include "tjulib.h"
 
